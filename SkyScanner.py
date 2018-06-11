@@ -149,7 +149,11 @@ class SkyScanner:
             words_set = set(words)
             common_elements = words_set.intersection(self.stopwords_set[language])
             languages_ratios[language] = len(common_elements)  # language "score"
-        return sorted(languages_ratios.items(), key=operator.itemgetter(1), reverse=True)[0][0]
+
+        languages = sorted(languages_ratios.items(), key=operator.itemgetter(1), reverse=True)
+        if languages[0][1] <= languages_ratios['english']:
+            return 'english'
+        return languages[0][0]
 
 
     def run_query(self, query):
